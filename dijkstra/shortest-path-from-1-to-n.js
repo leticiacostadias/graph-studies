@@ -8,8 +8,9 @@ function findPath(n) {
 
   populateNotVisitedVertex();
 
-  while (visitedVertex.length < n) {
-    const currentVertex = getCloserVertex();
+  return calculateDistanceFromStart(getCloserVertex());
+
+  function calculateDistanceFromStart(currentVertex) {
     const neighbors = getNeighborVertex(currentVertex);
 
     visitedVertex.push(currentVertex);
@@ -21,9 +22,13 @@ function findPath(n) {
         v.distance = vertexesDistance;
       }
     }
-  }
 
-  return getTargetDistance();
+    if (visitedVertex.length < n) {
+      return calculateDistanceFromStart(getCloserVertex());
+    }
+
+    return getTargetDistance();
+  }
 
   function getCloserVertex() {
     return notVisitedVertex.sort((v, y) => v.distance < y.distance).shift();
